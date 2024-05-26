@@ -1,9 +1,9 @@
-% List of open inputs
-nrun = X; % enter the number of runs here
-jobfile = {'C:\Users\jiani\Documents\MATLAB\spm4950\01 auditory\job\normalise_functional_job.m'};
-jobs = repmat(jobfile, 1, nrun);
-inputs = cell(0, nrun);
-for crun = 1:nrun
+function matlabbatch = normalise_functional(fnorm_def_path, fnorm_rsmp_path)
+        matlabbatch{1}.spm.spatial.normalise.write.subj.def = fnorm_def_path;
+        matlabbatch{1}.spm.spatial.normalise.write.subj.resample = fnorm_rsmp_path;
+        matlabbatch{1}.spm.spatial.normalise.write.woptions.bb = [-78 -112 -70
+                                                          78 76 85];
+        matlabbatch{1}.spm.spatial.normalise.write.woptions.vox = [3 3 3];
+        matlabbatch{1}.spm.spatial.normalise.write.woptions.interp = 4;
+        matlabbatch{1}.spm.spatial.normalise.write.woptions.prefix = 'w';
 end
-spm('defaults', 'FMRI');
-spm_jobman('run', jobs, inputs{:});

@@ -1,9 +1,7 @@
-% List of open inputs
-nrun = X; % enter the number of runs here
-jobfile = {'C:\Users\jiani\Documents\MATLAB\spm4950\01 auditory\job\smooth_job.m'};
-jobs = repmat(jobfile, 1, nrun);
-inputs = cell(0, nrun);
-for crun = 1:nrun
+function matlabbatch = smooth(input_paths)
+        matlabbatch{1}.spm.spatial.smooth.data = input_paths;
+        matlabbatch{1}.spm.spatial.smooth.fwhm = [6 6 6];
+        matlabbatch{1}.spm.spatial.smooth.dtype = 0;
+        matlabbatch{1}.spm.spatial.smooth.im = 0;
+        matlabbatch{1}.spm.spatial.smooth.prefix = 's';
 end
-spm('defaults', 'FMRI');
-spm_jobman('run', jobs, inputs{:});

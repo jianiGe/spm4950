@@ -1,9 +1,41 @@
-% List of open inputs
-nrun = X; % enter the number of runs here
-jobfile = {'C:\Users\jiani\Documents\MATLAB\spm4950\01 auditory\job\segment_job.m'};
-jobs = repmat(jobfile, 1, nrun);
-inputs = cell(0, nrun);
-for crun = 1:nrun
+function matlabbatch = segment(input_path, tpm_path)
+        matlabbatch = {};
+        matlabbatch{1}.spm.spatial.preproc.channel.vols = input_path;
+        matlabbatch{1}.spm.spatial.preproc.channel.biasreg = 0.001;
+        matlabbatch{1}.spm.spatial.preproc.channel.biasfwhm = 60;
+        matlabbatch{1}.spm.spatial.preproc.channel.write = [0 1];
+        matlabbatch{1}.spm.spatial.preproc.tissue(1).tpm = {[tpm_path ',1']};
+        matlabbatch{1}.spm.spatial.preproc.tissue(1).ngaus = 1;
+        matlabbatch{1}.spm.spatial.preproc.tissue(1).native = [1 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(1).warped = [0 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(2).tpm = {[tpm_path ',2']};
+        matlabbatch{1}.spm.spatial.preproc.tissue(2).ngaus = 1;
+        matlabbatch{1}.spm.spatial.preproc.tissue(2).native = [1 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(2).warped = [0 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(3).tpm = {[tpm_path ',3']};
+        matlabbatch{1}.spm.spatial.preproc.tissue(3).ngaus = 2;
+        matlabbatch{1}.spm.spatial.preproc.tissue(3).native = [1 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(3).warped = [0 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(4).tpm = {[tpm_path ',4']};
+        matlabbatch{1}.spm.spatial.preproc.tissue(4).ngaus = 3;
+        matlabbatch{1}.spm.spatial.preproc.tissue(4).native = [1 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(4).warped = [0 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(5).tpm = {[tpm_path ',5']};
+        matlabbatch{1}.spm.spatial.preproc.tissue(5).ngaus = 4;
+        matlabbatch{1}.spm.spatial.preproc.tissue(5).native = [1 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(5).warped = [0 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(6).tpm = {[tpm_path ',6']};
+        matlabbatch{1}.spm.spatial.preproc.tissue(6).ngaus = 2;
+        matlabbatch{1}.spm.spatial.preproc.tissue(6).native = [0 0];
+        matlabbatch{1}.spm.spatial.preproc.tissue(6).warped = [0 0];
+        matlabbatch{1}.spm.spatial.preproc.warp.mrf = 1;
+        matlabbatch{1}.spm.spatial.preproc.warp.cleanup = 1;
+        matlabbatch{1}.spm.spatial.preproc.warp.reg = [0 0.001 0.5 0.05 0.2];
+        matlabbatch{1}.spm.spatial.preproc.warp.affreg = 'mni';
+        matlabbatch{1}.spm.spatial.preproc.warp.fwhm = 0;
+        matlabbatch{1}.spm.spatial.preproc.warp.samp = 3;
+        matlabbatch{1}.spm.spatial.preproc.warp.write = [0 1];
+        matlabbatch{1}.spm.spatial.preproc.warp.vox = NaN;
+        matlabbatch{1}.spm.spatial.preproc.warp.bb = [NaN NaN NaN
+                                              NaN NaN NaN];
 end
-spm('defaults', 'FMRI');
-spm_jobman('run', jobs, inputs{:});

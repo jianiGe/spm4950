@@ -1,9 +1,10 @@
-% List of open inputs
-nrun = X; % enter the number of runs here
-jobfile = {'C:\Users\jiani\Documents\MATLAB\spm4950\01 auditory\job\coregister_job.m'};
-jobs = repmat(jobfile, 1, nrun);
-inputs = cell(0, nrun);
-for crun = 1:nrun
+function matlabbatch = coregister(input_ref, input_src)
+        matlabbatch = {};
+        matlabbatch{1}.spm.spatial.coreg.estimate.ref = input_ref;
+        matlabbatch{1}.spm.spatial.coreg.estimate.source = input_src;
+        matlabbatch{1}.spm.spatial.coreg.estimate.other = {''};
+        matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.cost_fun = 'nmi';
+        matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.sep = [4 2];
+        matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.tol = [0.02 0.02 0.02 0.001 0.001 0.001 0.01 0.01 0.01 0.001 0.001 0.001];
+        matlabbatch{1}.spm.spatial.coreg.estimate.eoptions.fwhm = [7 7];
 end
-spm('defaults', 'FMRI');
-spm_jobman('run', jobs, inputs{:});
