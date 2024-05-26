@@ -9,6 +9,7 @@ cd(script_dir);
 
 % path of data folder
 data_dir = fullfile(script_dir, 'MoAEpilot');
+data_class_dir = fullfile(script_dir, 'classical');
 
 % spm path (replace with your own)
 spm_dir = 'C:\Users\jiani\Downloads\spm12\spm12';
@@ -28,7 +29,7 @@ addpath(spm_dir);
 % E--structural normalization
 % F--smoothing
 
-preprocessing('ABCDEF', data_dir, spm_dir);
+%preprocessing('ABCDEF', data_dir, spm_dir);
 
 
 %% First-level
@@ -40,8 +41,13 @@ preprocessing('ABCDEF', data_dir, spm_dir);
 % S--specification
 % E--estimation
 
-first_level_spec_est('SE', data_dir);
+%first_level_spec_est('SE', data_dir);
 
+% contrast estimation and result table
+con_name = 'listening>rest';
+con_vec = [1 0];
+stat = 't';
+first_level_contrast(data_dir, stat, con_name, con_vec);
 
 
 
