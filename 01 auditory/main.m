@@ -29,7 +29,7 @@ addpath(spm_dir);
 % E--structural normalization
 % F--smoothing
 
-%preprocessing('ABCDEF', data_dir, spm_dir);
+preprocessing('ABCDEF', data_dir, spm_dir);
 
 
 %% First-level
@@ -41,7 +41,7 @@ addpath(spm_dir);
 % S--specification
 % E--estimation
 
-%first_level_spec_est('SE', data_dir);
+first_level_spec_est('SE', data_dir);
 
 % contrast estimation and result table
 con_name = 'listening>rest';
