@@ -9,7 +9,6 @@ cd(script_dir);
 
 % path of data folder
 data_dir = fullfile(script_dir, 'MoAEpilot');
-data_class_dir = fullfile(script_dir, 'classical');
 
 % spm path (replace with your own)
 spm_dir = 'C:\Users\jiani\Downloads\spm12\spm12';
