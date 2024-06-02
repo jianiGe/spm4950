@@ -31,7 +31,7 @@ conditions = [1 1; 1 2; 1 3; 1 4; 2 1; 2 2; 2 3; 2 4];
 effects = {[1 2]}; %interaction
 
 
-%% =====================COMPILE BATCH SCRIPT (flexible factorial)=====================
+%% =====================Flexible factorial design=====================
 % output directory
 matlabbatch = {};
 matlabbatch{1}.spm.stats.factorial_design.dir = {output_dir};
@@ -70,8 +70,56 @@ matlabbatch{2}.spm.stats.fmri_est.write_residuals = 0;
 matlabbatch{2}.spm.stats.fmri_est.method.Classical = 1;
 
 
-%% run estimation
+% run estimation
 nrun = 1;
 inputs = cell(0, nrun);
 spm_jobman('run', matlabbatch, inputs{:});
 
+%% =====================Estimate contrast and output result table/figure=====================
+
+spmmat_path = fullfile(output_dir, 'SPM.mat');
+
+name = {'imagery>perception',
+        'perceptLH>perceptOTHER'};
+vec = {[-1 -1 -1 -1 1 1 1 1],
+       [1 -1 -1 -1 0 0 0 0]};
+stat = 't';
+    
+%==================ESTIMATE CONTRAST======================
+matlabbatch = {};
+
+for i = 1:length(name)
+    j = i*2-1;
+
+    % specify matlabbatch
+    matlabbatch{j}.spm.stats.con.spmmat = {spmmat_path};
+
+    % define contrast
+    if stat == 't'
+        matlabbatch{j}.spm.stats.con.consess{1}.tcon.name = name{i};
+        matlabbatch{j}.spm.stats.con.consess{1}.tcon.weights = vec{i};
+        matlabbatch{j}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
+    elseif stat == 'f'
+        matlabbatch{j}.spm.stats.con.consess{1}.fcon.name = name{i};
+        matlabbatch{j}.spm.stats.con.consess{1}.fcon.weights = vec{i};
+        matlabbatch{j}.spm.stats.con.consess{1}.fcon.sessrep = 'none';
+    end
+    if j==1
+        matlabbatch{j}.spm.stats.con.delete = 1;
+    end
+    
+    %===================RESULT TABLE====================
+    p_value_threshold = 0.05;
+    
+    matlabbatch{j+1}.spm.stats.results.spmmat = {spmmat_path};
+    matlabbatch{j+1}.spm.stats.results.conspec(1).titlestr = name{i};
+    matlabbatch{j+1}.spm.stats.results.conspec(1).contrasts = i;
+    matlabbatch{j+1}.spm.stats.results.conspec(1).threshdesc = 'FWE'; % 'FWE' for family-wise error correction, 'FDR' for false discovery rate, or 'none'
+    matlabbatch{j+1}.spm.stats.results.conspec(1).thresh = p_value_threshold;
+    matlabbatch{j+1}.spm.stats.results.conspec(1).extent = 0; % minimum cluster size
+    matlabbatch{j+1}.spm.stats.results.conspec(1).conjunction = 1;
+    matlabbatch{j+1}.spm.stats.results.conspec(1).mask.none = 1; % no mask
+
+ end
+    
+ spm_jobman('run', matlabbatch);
