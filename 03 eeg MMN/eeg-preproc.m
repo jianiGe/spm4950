@@ -1,5 +1,6 @@
 % 17.06.2024
 % Script for EEG preprocessing
+% (might add code for generating the preparatory files in a future version)
 
 spm('defaults', 'eeg');
 
@@ -108,6 +109,15 @@ D = spm_eeg_epochs(S);
 filename{end+1} = [S.prefix filename{end}];
 
 % Artefact
+% optional: mark bad channels
+%{
+badchannels = {'A14', 'B22'};
+for i = 1:length(badchannels)
+    badchannel_idx = find(strcmp(D.chanlabels, badchannels{i}));
+    D = badchannels(D, channel_idx, 1);
+end
+save(D);
+%}
 S = [];
 S.D = [proj_dir '\' filename{end} '.mat'];
 S.mode = 'reject';
