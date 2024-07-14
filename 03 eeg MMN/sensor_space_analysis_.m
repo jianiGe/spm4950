@@ -10,7 +10,7 @@ spm_jobman('initcfg');
 
 % set directories
 proj_dir = 'C:\Users\jiani\Documents\MATLAB\spm4950\03 eeg MMN';
-stats_dir = fullfile(proj_dir, 'XYTstats');
+stats_dir = fullfile(proj_dir, 'sensor-space-erp');
 
 if ~isfolder(stats_dir)
     mkdir(stats_dir);
