@@ -103,10 +103,12 @@ for i = 1:length(subfolder)
         % executed; if nothing is entered, the default would be to execute the following:
         % S--specification
         % E--estimation
-
+        % NOTE: the function assumes you have a logfile for event onsets
+        % etc. in the functional data folder
         first_level_spec_est('SE', sub_preproc_dir, sub_firstlevel_dir);
 
-        % Contrast estimation and result table
+        % Contrast estimation and result table (here with a simple example
+        % contrast)
         con_name = {'listening>rest'};
         con_vec = {[1 0]};
         stat = 't';
